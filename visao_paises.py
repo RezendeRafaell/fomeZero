@@ -122,4 +122,21 @@ df = df.loc[linhas_selecionadas, :]
 # ============================================================================
 # Layout do Streamlit
 # ============================================================================
+st.header("Visão Paises")
 
+with st.container():
+    st.markdown("##### Quantidade de Restaurantes Registrados por País")
+    # INFO
+
+with st.container():
+    st.markdown("##### Quantidade de Cidades Registradas por País")
+    # INFO
+
+with st.container():
+    col1, col2 = st.columns(2)
+    with col1:
+        st.markdown("##### Média de avaliações Feitas por País")
+        # INFO
+    with col2:
+        st.markdown("##### Média de preço de um prato para 2 pessoas por País")
+        # INFO
