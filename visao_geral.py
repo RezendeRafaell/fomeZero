@@ -85,7 +85,7 @@ df["cuisines"] = df.loc[:, "cuisines"].apply(lambda x: x.split(",")[0])
 # Transformar os obejtos em strings. Exemplo: A coluna cuisines
 
 df = df.astype({"restaurant_id": int})
-
+df = df.loc[(df["average_cost_for_two_dolar"] < 1000000), :].copy()
 #===================
 # Barra Lateal
 #===================

@@ -81,9 +81,28 @@ df['country_code'] = df['country_code'].map(COUNTRIES)
 df["cost_range"] = df.loc[:, "price_range"].apply(lambda x : create_price_tye(x))
 df["cuisines"] = df["cuisines"].astype(str)
 df["cuisines"] = df.loc[:, "cuisines"].apply(lambda x: x.split(",")[0])
-# PRECISO TRANSFORMAR TUDO EM DOLAR
-# Transformar os obejtos em strings. Exemplo: A coluna cuisines
 
+
+CURRENCIES = {
+"Botswana Pula(P)": 0.074,
+"Brazilian Real(R$)": 0.20,
+"Dollar($)": 1,
+"Emirati Diram(AED)": 0.27,
+"Indian Rupees(Rs.)": 0.012,
+"Indonesian Rupiah(IDR)": 0.000063,
+"NewZealand($)": 0.61,
+"Pounds(£)": 1.27,
+"Qatari Rial(QR)": 0.27,
+"Rand(R)": 0.054,
+"Sri Lankan Rupee(LKR)": 0.0032,
+"Turkish Lira(TL)": 0.033
+}
+df['exchange_to_dolar'] = df['currency'].map(CURRENCIES)
+
+df['average_cost_for_two_dolar'] = df['average_cost_for_two'] * df['exchange_to_dolar']
+
+
+df = df.loc[(df["average_cost_for_two_dolar"] < 1000000), :].copy()
 df = df.astype({"restaurant_id": int})
 
 #===================
@@ -125,18 +144,54 @@ df = df.loc[linhas_selecionadas, :]
 st.header("Visão Paises")
 
 with st.container():
-    st.markdown("##### Quantidade de Restaurantes Registrados por País")
-    # INFO
+    st.markdown("##### Top 10 países com mais restaurantes registrados")
+    df_aux = df.loc[:, ["country_code", "restaurant_id"]].groupby(["country_code"]).nunique().reset_index()
+    df_aux = df_aux.sort_values(by = "restaurant_id", ascending=False) .reset_index(drop=True)
+    df_aux.head(10)
+    fig = px.bar(df_aux, 
+                        x="country_code", 
+                        y ="restaurant_id", 
+                        color="restaurant_id", 
+                        labels={"country_code": "País", "restaurant_id" : "Quantidade de restaurantes"})
+    st.plotly_chart(fig)
 
 with st.container():
-    st.markdown("##### Quantidade de Cidades Registradas por País")
-    # INFO
+    st.markdown("##### Top 10 Países com mais Cidades Registrada")
+    df_aux = df.loc[:, ["country_code", "city"]].groupby(["country_code"]).nunique().reset_index()
+    df_aux = df_aux.head(10)
+    df_aux = df_aux.sort_values(by = "city", ascending=False) .reset_index(drop=True)
+    fig = px.bar(df_aux, 
+                        x="country_code", 
+                        y ="city", 
+                        color="city", 
+                        labels={"city": "Quantidade de Cidades", "country_code": "País"})
+    st.plotly_chart(fig)
+    
 
 with st.container():
     col1, col2 = st.columns(2)
     with col1:
-        st.markdown("##### Média de avaliações Feitas por País")
-        # INFO
+        st.markdown("##### Nota Média de Avaliações Feita")
+        st.markdown("##### por País")
+        df_aux = df.loc[:, ["aggregate_rating", "country_code"]].groupby("country_code").mean().reset_index()
+        df_aux = df_aux.sort_values(by="aggregate_rating", ascending=False)
+        fig = px.bar(df_aux, 
+                        x="country_code", 
+                        y ="aggregate_rating", 
+                        color="aggregate_rating", 
+                        labels={"aggregate_rating": "Nota média ", "country_code": "País"})
+        st.plotly_chart(fig)
+
     with col2:
-        st.markdown("##### Média de preço de um prato para 2 pessoas por País")
-        # INFO
+        st.markdown("##### Preço Médio de um Prato para 2 Pessoas")
+        st.markdown("##### por País")
+        df_aux = df.loc[(df["average_cost_for_two_dolar"] < 1000000),:]
+        df_aux = df_aux.loc[:, ["country_code", "average_cost_for_two_dolar"]].groupby(["country_code"]).mean().reset_index()
+        df_aux = df_aux.sort_values(by="average_cost_for_two_dolar", ascending=False)      
+        fig = px.bar(df_aux, 
+                                x="country_code", 
+                                y ="average_cost_for_two_dolar", 
+                                color="average_cost_for_two_dolar", 
+                                labels={"average_cost_for_two_dolar": "Valor (dolar) ", "country_code": "País"})
+        st.plotly_chart(fig)
+                

@@ -81,11 +81,28 @@ df['country_code'] = df['country_code'].map(COUNTRIES)
 df["cost_range"] = df.loc[:, "price_range"].apply(lambda x : create_price_tye(x))
 df["cuisines"] = df["cuisines"].astype(str)
 df["cuisines"] = df.loc[:, "cuisines"].apply(lambda x: x.split(",")[0])
-# PRECISO TRANSFORMAR TUDO EM DOLAR
-# Transformar os obejtos em strings. Exemplo: A coluna cuisines
+
+CURRENCIES = {
+"Botswana Pula(P)": 0.074,
+"Brazilian Real(R$)": 0.20,
+"Dollar($)": 1,
+"Emirati Diram(AED)": 0.27,
+"Indian Rupees(Rs.)": 0.012,
+"Indonesian Rupiah(IDR)": 0.000063,
+"NewZealand($)": 0.61,
+"Pounds(£)": 1.27,
+"Qatari Rial(QR)": 0.27,
+"Rand(R)": 0.054,
+"Sri Lankan Rupee(LKR)": 0.0032,
+"Turkish Lira(TL)": 0.033
+}
+
+df['exchange_to_dolar'] = df['currency'].map(CURRENCIES)
+
+df['average_cost_for_two_dolar'] = df['average_cost_for_two'] * df['exchange_to_dolar']
 
 df = df.astype({"restaurant_id": int})
-
+df = df.loc[(df["average_cost_for_two_dolar"] < 1000000), :].copy()
 #===================
 # Barra Lateal
 #===================
