@@ -118,7 +118,7 @@ def clean_data(df):
 
 #===============================================================================
 
-df_raw = pd.read_csv("pages/utils/zomato.csv")
+df_raw = pd.read_csv("data_set/zomato.csv")
 df = df_raw.copy()
 df = rename_columns(df)
 df = clean_data(df)
