@@ -133,7 +133,7 @@ df = clean_data(df)
 image = Image.open("image.webp")
 
 st.sidebar.image(image, width=200)
-st.sidebar.markdown("# Zomato Case Study")
+st.sidebar.markdown("# Zomato's Geographic Analysis")
 st.sidebar.markdown("""---""")
 st.sidebar.markdown("## Selecione um país")
 
@@ -183,7 +183,7 @@ st.markdown(
         - Rank das cidades com preços mais caros
         - Cidades com avaliações zeradas
     ### Ask for Help
-    - Falar com Rafael Renzende: 
+    - Falar com Rafael Rezende: 
         - github: RezendeRafaell
         - email: rafaeladm95@gmail.com 
 """)

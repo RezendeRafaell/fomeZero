@@ -175,7 +175,7 @@ df = clean_data(df)
 image = Image.open("image.webp")
 
 st.sidebar.image(image, width=200)
-st.sidebar.markdown("# Zomato Case Study")
+st.sidebar.markdown("# Zomato's Geographic Analysis")
 st.sidebar.markdown("""---""")
 st.sidebar.markdown("## Selecione um país")
 
