@@ -1,4 +1,4 @@
-streamlit==1.15.1
+streamlit==1.31.0
 plotly==5.10.0
 pandas==1.4.3
 numpy==1.23.1
@@ -8,3 +8,4 @@ matplotlib-inline==0.1.6
 haversine==2.7.0
 streamlit-folium==0.7.0
 Pillow==9.2.0
+inflection==0.5.1
