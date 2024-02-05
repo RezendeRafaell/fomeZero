@@ -238,5 +238,5 @@ with st.container():
         st.markdown("##### Preço Médio de um Prato para 2 Pessoas")
         st.markdown("##### por País")
         fig8 = get_fig8(df)
-        st.plotly_chart(fig)
+        st.plotly_chart(fig8)
                 
