@@ -162,6 +162,7 @@ def get_fig8(df):
                             color="average_cost_for_two_dolar", 
                             labels={"average_cost_for_two_dolar": "Valor (dolar) ", "country_code": "País"})
 
+    return fig
 #===============================================================================
 
 df_raw = pd.read_csv("data_set/zomato.csv")
